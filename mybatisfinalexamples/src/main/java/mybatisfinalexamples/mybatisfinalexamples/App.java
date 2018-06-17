@@ -26,7 +26,8 @@ public class App
         
         try {
 			//insertTest(student);
-        	selectTest();
+        	//selectTest();
+        	selectSpecificTest();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,4 +80,30 @@ public static void selectTest() throws IOException {
     	
     	
     }
+
+public static void selectSpecificTest() throws IOException {
+	
+	Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+    SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+	SqlSession session = sqlSessionFactory.openSession();
+	
+	
+	
+	//select
+	
+	List<Student> students = session.selectList("Student.getById",2);
+	/*
+	for(Student s: students) {
+		System.out.println(s);
+	}   */ 	
+	
+	students.forEach(student -> System.out.println(student));
+	
+	System.out.println("Records Fetched");
+	
+	session.commit();
+	session.close();
+	
+	
+}
 }
